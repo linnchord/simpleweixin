@@ -14,15 +14,14 @@ def check_signature(token, params):
     timestamp = params.get("timestamp")
     nonce = params.get("nonce")
     echostr = params.get("echostr")
-    src = "".join([token, timestamp, nonce])
+    src = "".join(sorted([token, timestamp, nonce]))
     m = hashlib.sha1()
     m.update(src)
     agro = m.hexdigest()
     if agro == signature:
         return echostr
-    output = "%s is not %s"%(agro,signature)
-    logging.debug(output)
-    return output
+    else:
+        logging.debug("weixinsdk check_signature failed, %s is not %s." % (agro,signature))
 
 def __parseContent(xml):
     from xml.dom.minidom import parseString
