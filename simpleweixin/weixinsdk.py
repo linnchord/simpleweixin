@@ -72,7 +72,7 @@ def response_music(title,description,url,hd_url):
 
 
 class Article(object):
-    def __init__(self, title, description, picurl, url):
+    def __init__(self, title, description, picurl='', url=''):
         self.title = title
         self.description = description
         self.picurl = picurl
