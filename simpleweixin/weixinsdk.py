@@ -27,7 +27,8 @@ def __parseContent(xml):
     from xml.dom.minidom import parseString
     dom = parseString(xml)
     root = dom.childNodes[0]
-    return dict([(node.tagName, node.firstChild.nodeValue) for node in root.childNodes if node.nodeType==1])
+    return dict([(node.tagName, node.firstChild.nodeValue if node.firstChild else None) 
+                 for node in root.childNodes if node.nodeType==1])
 
 
 def __generateContent(data):
