@@ -81,16 +81,19 @@ class Article(object):
         self.picurl = picurl
         self.url = url
 
-def response_html(articles):
-    if articles and isinstance(articles[0],type(Article)):
+def response_articles(articles):
+    if isinstance(articles, Article):
+        articles = articles,
+    if articles and isinstance(articles[0], Article):
         return dict(
             Articles = [
                 dict(Title = article.title, Description = article.description, PicUrl = article.picurl, Url = article.url)
                 for article in articles
             ],
+            ArticleCount=len(articles),
             MsgType='news'
         )
-    raise TypeError, u"Must be the list of Article class"
+    raise TypeError(u"Must be the list of Article class")
 
 
 def process_request(data, callback):
