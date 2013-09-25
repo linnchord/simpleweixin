@@ -1,6 +1,7 @@
 #-*- coding:utf-8 -*-
 __author__ = 'Alexander.Li'
 import logging
+import time
 
 TEXT = u'text'
 IMAGE = u'image'
@@ -64,11 +65,13 @@ def __generateXml(data):
 
 
 def response_text(content):
-    return dict(Content=content)
+    return dict(Content=content, MsgType='text')
 
 
 def response_music(title,description,url,hd_url):
-    return dict(Music = dict(Title = title, Description = description, MusicUrl = url, HQMusicUrl = hd_url))
+    return dict(Music = dict(Title = title, Description = description, MusicUrl = url, HQMusicUrl = hd_url),
+                MsgType='music'
+                )
 
 
 class Article(object):
@@ -84,7 +87,8 @@ def response_html(articles):
             Articles = [
                 dict(Title = article.title, Description = article.description, PicUrl = article.picurl, Url = article.url)
                 for article in articles
-            ]
+            ],
+            MsgType='news'
         )
     raise TypeError, u"Must be the list of Article class"
 
@@ -95,9 +99,7 @@ def process_request(data, callback):
     reply = dict(
             ToUserName = params["FromUserName"],
             FromUserName = params["ToUserName"],
-            CreateTime = params["CreateTime"],
-            MsgType = params['MsgType'],
-            FuncFlag = 0
+            CreateTime = int(time.time())
     )
     reply.update(callback(params['MsgType'],params))
     return __generateXml(reply)
