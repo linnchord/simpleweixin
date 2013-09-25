@@ -20,7 +20,7 @@ def check_signature(token, params):
     m.update(src)
     agro = m.hexdigest()
     if agro == signature:
-        return echostr
+        return echostr or True
     else:
         logging.debug("weixinsdk check_signature failed, %s is not %s." % (agro,signature))
 
